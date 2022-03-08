@@ -24,6 +24,22 @@ export type Task = ({
 	 * Identification of what to build
 	 */
 	structure: StructureConstant
+} | {
+	type: "upgrade"
+	/**
+	 * Where to upgrade
+	 */
+	position: RoomPositionString
+
+	/**
+	 * Amount of energy that is required to upgrade the object
+	 */
+	energyRequired: number
+
+	/**
+	 * Identification of what to upgrade
+	 */
+	structure: StructureConstant
 }) & {
 	/**
 	 * ID of the task
@@ -33,7 +49,7 @@ export type Task = ({
 	 * ID of the creep that is assigned to the task
 	 */
 	creepIds: string[]
-	type: "collectEnergy" | "build"
+	type: "collectEnergy" | "build" | "upgrade"
 	/**
 	 * Priority of the task. Higher number means higher priority.
 	 */

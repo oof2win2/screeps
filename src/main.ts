@@ -11,12 +11,15 @@ import progression from "utils/progression";
 console.log("Initializing memory")
 Memory.nextCreepId = 0
 Memory.tasks = []
+for (const creepName in Memory.creeps) {
+	const creepMemory = Memory.creeps[creepName]
+	creepMemory.taskId = null
+}
 
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
 export const loop = ErrorMapper.wrapLoop(() => {
-	console.log(`Current game tick is ${Game.time}`);
-
+	console.log("current tick is " + Game.time)
 	// Instantaniate temp data for this tick
 	Memory.temp = {
 		rooms: new Map(),
@@ -33,11 +36,11 @@ export const loop = ErrorMapper.wrapLoop(() => {
 	progression()
 	// sort the tasks by priority
 	Memory.tasks = Memory.tasks.sort((a, b) => a.priority - b.priority)
+	console.log(Memory.tasks.length)
 	// assign the tasks to creeps
 	assignTasks()
 
 	// GC: Automatically delete memory of data that can be fetched during the next cycle
-	// Uses ts-ignore so that
 	// @ts-ignore
 	Memory.temp = null
 });
